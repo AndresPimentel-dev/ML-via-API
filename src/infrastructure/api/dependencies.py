@@ -7,7 +7,7 @@ import redis
 from src.use_cases.user_cases import UserUseCases
 from src.infrastructure.database.db_repository import UserRepository, PredictionsRepository
 from src.use_cases.prediction_cases import Predictioncasescreator
-from infrastructure.security.security_repository import SecurityServicesRepo, TokenService
+from src.infrastructure.security.security_repository import SecurityServicesRepo, TokenService
 from src.infrastructure.database.connection import get_db
 from src.infrastructure.celery.celery_app import CeleryServices
 from src.infrastructure.api.routes import oauth2_scheme
