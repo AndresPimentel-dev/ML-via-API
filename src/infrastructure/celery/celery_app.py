@@ -2,9 +2,9 @@ from celery import Celery
 from dotenv import load_dotenv
 import os
 from src.domain.interfaces import CeleryWorkersService
-from infrastructure.predictions.ml_repository import PredictionProvider
+from src.infrastructure.predictions.ml_repository import PredictionProvider
 from src.infrastructure.metrics.metrics import InstrumentedModel
-from infrastructure.predictions.ml_repository import PredictionProvider
+from src.infrastructure.predictions.ml_repository import PredictionProvider
 
 load_dotenv()
 
