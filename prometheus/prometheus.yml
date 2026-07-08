@@ -1,0 +1,10 @@
+global:
+#aqui configuro cada cuanto se hacen alas mediciones
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+#aqui le digo mira aqui y sacalas metricas el servicio app de docker compose
+  - job_name: "fastapi-app"
+    static_configs:
+      - targets: ["app:8000"]

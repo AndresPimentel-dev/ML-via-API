@@ -1,0 +1,45 @@
+name: Backend CI
+
+
+#Disparadores: Definen cuándo se ejecuta el flujo automáticamente
+on:
+  push:
+    branches: [ "main", "develop" ]  #evita que se manualmente las pruebas y se ejecunte de manera automatica
+  pull_request:
+    branches: [ "main" ] #este se lee si o si aqui no tiene que aver fallos para que se ejecute correctamente el test o evalua los cambios antes de fusionarlos para proteger la rama principal
+
+
+#intalasr dependencias 
+jobs:
+  backend-validation:
+    runs-on: ubuntu-latest # Ejecuta el trabajo en una máquina virtual limpia de Linux
+
+    steps:
+    - name: Descargar codigo del repositorio 
+      uses: actions/checkout@v4 # Clona tu proyecto dentro de la máquina virtual
+
+    - name: Configurar Python
+      uses: actions/setup-python@v5 # Instala Python en la máquina virtual
+      with:
+        python-version: '3.11'
+
+    - name: Instalar dependencias del sistema y del proyecto
+      run: |                                                                            #segurar que las herramientas que se usa en los fixtures estén disponibles por eso el pip intall
+        python -m pip install --upgrade pip
+        pip install flake8 pytest redis fakeredis sqlalchemy celery fastapi httpx  
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+#flake 8 es para leer linea por liena por erorres de sintaxis
+
+    - name: Verificar sintaxis de Python (Flake8)
+      run: |
+        # Detiene el flujo si hay errores de sintaxis o nombres no definidos
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Advertencias de estilo (no detienen el flujo, solo avisan)
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+# aquie es donde se ejecuta 
+
+    - name: Ejecutar pruebas con Pytest
+      run: |
+        pytest
