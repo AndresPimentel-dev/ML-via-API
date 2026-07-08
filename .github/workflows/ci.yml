@@ -41,5 +41,7 @@ jobs:
 # aquie es donde se ejecuta 
 
     - name: Ejecutar pruebas con Pytest
+      env:
+        PYTHONPATH: .
       run: |
         python -m pytest
