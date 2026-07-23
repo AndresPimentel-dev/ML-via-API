@@ -14,6 +14,10 @@ jobs:
   backend-validation:
     runs-on: ubuntu-latest # Ejecuta el trabajo en una máquina virtual limpia de Linux
 
+    env:
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
     steps:
     - name: Descargar codigo del repositorio 
       uses: actions/checkout@v4 # Clona tu proyecto dentro de la máquina virtual
