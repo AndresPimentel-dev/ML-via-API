@@ -5,10 +5,10 @@ import time
 from src.domain.interfaces import ILogger
 
 class LokiLogger(ILogger):
-    def __init__(self, url: str, tags: dict):
+    def __init__(self, url: str):
         self.logger = logging.getLogger("app-logger")
         # Configura el handler de Loki
-        handler = logging_loki.LokiHandler(url=url, tags=tags, version="1")
+        handler = logging_loki.LokiHandler(url=url, version="1")
         self.logger.addHandler(handler)
         self.logger.setLevel(logging.INFO)
 

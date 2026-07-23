@@ -20,12 +20,12 @@ from src.infrastructure.api.schemas import CurrentUser
 from fastapi import Request
 
 load_dotenv()
-
-SECRET_KEY = os.getenv("SECRET_KEY")
+#deberia hacer un get para todas las variables para poder poner tests
+SECRET_KEY = os.getenv("SECRET_KEY") or "esta_es_una_clave_muy_segura_de_mas_de_32_caracteres_x123"
 
 REDIS_URL = os.getenv("REDIS_URL")
-if REDIS_URL is None:
-    raise ValueError("¡Error crítico! La variable de entorno REDIS_URL no está definida.")
+#if REDIS_URL is None:
+#    raise ValueError("¡Error crítico! La variable de entorno REDIS_URL no está definida.")
 
 
 LOKI_URL = os.getenv("LOKI_URL")
@@ -54,13 +54,13 @@ def get_use_case(
         SecurityServicesRepo(), 
         TokenService(SECRET_KEY=SECRET_KEY, algorithm=ALGORITHM, expire_token_time=ACCES_EXPIRE_TIME), 
         cache_service,
-        LokiLogger(LOKI_URL, tags={"app": "model via api"})
+        logger = LokiLogger(LOKI_URL)
         )
 
 def get_prediction_case(db: Session = Depends(get_db)):
     return Predictioncasescreator(InstrumentedCelery(CeleryServices()),
                                 InstrumentedPredictionRepo(PredictionsRepository(db=db)),
-                                LokiLogger(LOKI_URL, tags={"app": "ml via api"}))
+                                LokiLogger(LOKI_URL))
 
 def get_token_case():
     return TokenService(SECRET_KEY=SECRET_KEY, algorithm=ALGORITHM, expire_token_time=ACCES_EXPIRE_TIME)

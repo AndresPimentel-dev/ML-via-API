@@ -11,7 +11,7 @@ load_dotenv()
 
 LOKI_URL = os.getenv("LOKI_URL")
 
-logger = LokiLogger(LOKI_URL, tags={"app": "model via api"})
+logger = LokiLogger(LOKI_URL)
 
 
 REQUEST_COUNT = Counter(
