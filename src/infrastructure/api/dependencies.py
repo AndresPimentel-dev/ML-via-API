@@ -21,7 +21,7 @@ from fastapi import Request
 
 load_dotenv()
 #deberia hacer un get para todas las variables para poder poner tests
-SECRET_KEY = os.getenv("SECRET_KEY") or "esta_es_una_clave_muy_segura_de_mas_de_32_caracteres_x123"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 REDIS_URL = os.getenv("REDIS_URL")
 #if REDIS_URL is None:
