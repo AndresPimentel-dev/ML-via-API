@@ -21,7 +21,7 @@ class PredictionRepositoryInterface(ABC):
     @abstractmethod
     def get_prediction_db(user_id: int):
         pass
-    def delete_prediction_db(prediction_id: int):
+    def delete_prediction_db(prediction_id: int, owner_id: int):
         pass
 
 class SecurityService(ABC):

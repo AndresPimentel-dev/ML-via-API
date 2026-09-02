@@ -26,18 +26,16 @@ celery_app.conf.update(
     enable_utc=True
 )
 
-previder = InstrumentedModel(PredictionProvider())
+prediction_provider = InstrumentedModel(PredictionProvider())
 
 
 @celery_app.task
 def worker_contract_provider_task(company_description: str):
-    prediction = previder.get_contracts(company_description)
+    prediction = prediction_provider.get_contracts(company_description)
     return prediction
 @celery_app.task
 def worker_probability_provider_task(contract_name: str, budget: float):
-    print({"contrato nombre": contract_name, "budget": budget})
-    print(type(budget))
-    prediction = previder.get_win_prediction(contract_name, budget)
+    prediction = prediction_provider.get_win_prediction(contract_name, budget)
     return prediction
 
 

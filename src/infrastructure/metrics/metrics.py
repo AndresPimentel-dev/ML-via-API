@@ -63,11 +63,11 @@ class InstrumentedPredictionRepo(PredictionRepositoryInterface):
         except Exception as e:
             ORM_ERRORS.labels(componente='user repo db', error_type=type(e).__name__).inc()
             raise e
-    def delete_prediction_db(self, prediction_id):
+    def delete_prediction_db(self, prediction_id, owner_id):
         try:
            with ORM_LATENCY.labels(type='delete_prediction', table='predictions').time():
                ORM_OPERATIONS.labels(type='delete_prediction', table='predictions').inc()
-               return self._decorated.delete_prediction_db(prediction_id)
+               return self._decorated.delete_prediction_db(prediction_id, owner_id)
         except Exception as e:
             ORM_ERRORS.labels(componente='user repo db', operation='delete prediction', error_type=type(e).__name__).inc()
             raise e

@@ -10,11 +10,11 @@ from src.use_cases.prediction_cases import Predictioncasescreator
 from src.infrastructure.security.security_repository import SecurityServicesRepo, TokenService
 from src.infrastructure.database.connection import get_db
 from src.infrastructure.celery.celery_app import CeleryServices
-from src.infrastructure.api.routes import oauth2_scheme
+from src.api.routes import oauth2_scheme
 from src.infrastructure.cache.cache import CacheServices
 from src.infrastructure.metrics.metrics import InstrumentedCache, InstrumentedCelery, InstrumentedUserRepo, InstrumentedPredictionRepo
 from src.infrastructure.logs.logging import LokiLogger
-from src.infrastructure.api.schemas import CurrentUser
+from src.api.schemas import CurrentUser
 
 
 from fastapi import Request

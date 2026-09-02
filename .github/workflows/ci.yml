@@ -25,7 +25,7 @@ jobs:
     - name: Configurar Python
       uses: actions/setup-python@v5 # Instala Python en la máquina virtual
       with:
-        python-version: '3.11'
+        python-version: '3.12'
 
     - name: Instalar dependencias del sistema y del proyecto
       run: |                                                                            #segurar que las herramientas que se usa en los fixtures estén disponibles por eso el pip intall

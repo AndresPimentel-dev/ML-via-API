@@ -6,7 +6,7 @@ import json
 from src.domain.interfaces import PredictionRepositoryInterface, CeleryWorkersService, ILogger
 
 
-class Predictioncasescreator:
+class PredictionService:
     def __init__(self, cele_works:CeleryWorkersService,
                  predict_repo: PredictionRepositoryInterface,
                  logger: ILogger):
@@ -46,10 +46,10 @@ class Predictioncasescreator:
         except Exception as e:
             self.logger.error(message="error obteniendo prediccion de db", error=str(e), user_id=user_id)
             raise e
-    def delete_prediction(self, prediction_id: int):
+    def delete_prediction(self, prediction_id: int, owner_id: int):
         try:
             self.logger.info(message="borrando prediccion", prediction_id=prediction_id)
-            return self.predict_repo.delete_prediction_db(prediction_id)
+            return self.predict_repo.delete_prediction_db(prediction_id, owner_id)
         except Exception as e:
             self.logger.error(message="error borrando predicion", error=str(e), prediction_id=prediction_id)
             raise e

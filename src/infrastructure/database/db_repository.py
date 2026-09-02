@@ -21,8 +21,8 @@ class PredictionsRepository(PredictionRepositoryInterface):
         if predictions is None:
             return None
         return predictions
-    def delete_prediction_db(self, prediction_id: int):
-        prediction = self.db.query(PredictionsTable).filter(PredictionsTable.id == prediction_id).first()
+    def delete_prediction_db(self, prediction_id: int, owner_id: int):
+        prediction = self.db.query(PredictionsTable).filter(PredictionsTable.id == prediction_id, PredictionsTable.owner_id == owner_id).first()
         self.db.delete(prediction)
         self.db.commit()
         return {"status": "borrado"}

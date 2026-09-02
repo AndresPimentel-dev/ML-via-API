@@ -34,11 +34,8 @@ class TokenService(TokenService):
                 return None
             return username
         except ExpiredSignatureError:
-            print("Token has expired")
             return None
         except DecodeError:
-            print("Token is malformed or signature is invalid")
             return None
         except Exception as e:
-            print(f"Unexpected error: {e}")
             return None

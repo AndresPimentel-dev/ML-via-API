@@ -37,8 +37,7 @@ class CacheServices(CacheServiceUsername):
                 return json.loads(raw_data)
             return self._local_fallback.get(token)
         except redis.RedisError as e:
-            self._local_fallback.get(token)
-            return None
+            return self._local_fallback.get(token)
 
     def delete_username(self, token: str):
         """Elimina el usuario (ideal para invalidar caché al cerrar sesión)."""

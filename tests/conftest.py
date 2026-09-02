@@ -53,8 +53,8 @@ def redis_client():
 # 3. Cliente de Test (FastAPI/Flask/etc)
 @pytest.fixture(scope="module")
 def client(db_session, redis_client):
-    from src.infrastructure.api.main import app
-    from src.infrastructure.api.dependencies import get_cache_service
+    from src.api.main import app
+    from src.api.dependencies import get_cache_service
     from src.infrastructure.database.connection import get_db
     
     cache_service_instance = CacheServices(redis_client=redis_client)
