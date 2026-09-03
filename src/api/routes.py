@@ -9,7 +9,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 from src.api.schemas import UserCreate, TokenResponse, StatusResponse, ProbabilityInput, ContractServiceInput, StatusResponse
 from src.use_cases.user_cases import UserUseCases
-from src.use_cases.prediction_cases import Predictioncasescreator
+from src.use_cases.prediction_cases import PredictionService
 from src.domain.entities import User
 from src.api.dependencies import get_current_user, get_prediction_case, get_use_case
 
@@ -63,7 +63,7 @@ def login(form: OAuth2PasswordRequestForm = Depends(), use_case: UserUseCases = 
 def create_prediction(
     data: ContractServiceInput,
     username = Depends(get_current_user), # <--- Aquí está la seguridad
-    prediction_case: Predictioncasescreator = Depends(get_prediction_case)
+    prediction_case: PredictionService = Depends(get_prediction_case)
 ):
     print(username)
     prediction_case.get_contract({"model_used": "contract_provider_model", "prediction": data.company_description, "user_id": username.user_id})
@@ -74,7 +74,7 @@ def create_prediction(
 def get_probability(
     data: ProbabilityInput,
     username = Depends(get_current_user),
-    prediction_case: Predictioncasescreator = Depends(get_prediction_case)
+    prediction_case: PredictionService = Depends(get_prediction_case)
 ):
     prediction_case.get_probability_pred({"model_used": "probability_provider_model", "contract": data.contract_name,"budget": data.user_budget, "user_id": username.user_id})
     return {"status": "Predicción creada y guardada"}
@@ -82,7 +82,7 @@ def get_probability(
 @router.get("/api/v1/predictions", status_code=200)
 def obtenerprediccion(
     username = Depends(get_current_user),
-    user_case: Predictioncasescreator = Depends(get_prediction_case)):
+    user_case: PredictionService = Depends(get_prediction_case)):
     predictions = user_case.consult_prediction(username.user_id)
     print(predictions)
     print(type(predictions))
@@ -92,7 +92,7 @@ def obtenerprediccion(
 def borrar_prediccion(
     prediction_id:int,
     username = Depends(get_current_user),
-    use_case: Predictioncasescreator = Depends(get_prediction_case)
+    use_case: PredictionService = Depends(get_prediction_case)
 ):
     use_case.delete_prediction(prediction_id, username.user_id)
     return {"status": "tarea borrada"}

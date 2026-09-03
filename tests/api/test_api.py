@@ -39,7 +39,7 @@ def test_obtener_predicciones(client):
     token = payload.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
     client.post("/api/v1/predictions/contracts", json={"company_description": "empresa de software"}, headers=headers)
-    response = client.get("/readpredictions", headers=headers)
+    response = client.get("/api/v1/predictions", headers=headers)
     
     assert response.status_code == 200
     assert response.json() is not None
@@ -50,7 +50,7 @@ def test_borrar_predicciones(client):
     tokendecode = payload.json()["access_token"]
     headers = {"Authorization": f"Bearer {tokendecode}"}
 
-    response = client.delete(f"/delete_prediction/{1}", headers=headers)
+    response = client.delete(f"/api/v1/predictions/{1}", headers=headers)
 
     assert response.status_code == 200
     assert response.json() == {"status": "tarea borrada"}

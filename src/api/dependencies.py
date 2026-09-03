@@ -6,7 +6,7 @@ import redis
 
 from src.use_cases.user_cases import UserUseCases
 from src.infrastructure.database.db_repository import UserRepository, PredictionsRepository
-from src.use_cases.prediction_cases import Predictioncasescreator
+from src.use_cases.prediction_cases import PredictionService
 from src.infrastructure.security.security_repository import SecurityServicesRepo, TokenService
 from src.infrastructure.database.connection import get_db
 from src.infrastructure.celery.celery_app import CeleryServices
@@ -58,7 +58,7 @@ def get_use_case(
         )
 
 def get_prediction_case(db: Session = Depends(get_db)):
-    return Predictioncasescreator(InstrumentedCelery(CeleryServices()),
+    return PredictionService(InstrumentedCelery(CeleryServices()),
                                 InstrumentedPredictionRepo(PredictionsRepository(db=db)),
                                 LokiLogger(LOKI_URL))
 

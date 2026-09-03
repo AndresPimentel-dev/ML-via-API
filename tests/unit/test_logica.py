@@ -63,7 +63,7 @@ from unittest.mock import patch, MagicMock
 from src.infrastructure.celery.celery_app import worker_contract_provider_task, worker_probability_provider_task
 
 # Usamos patch para sustituir el 'previder' global que está en tu archivo de tareas
-@patch('src.infrastructure.celery.celery_app.previder')
+@patch('src.infrastructure.celery.celery_app.prediction_provider')
 def test_worker_contract_provider_task(mock_previder):
     # 1. Configuras el mock (simulas lo que devuelve el modelo de ML)
     mock_previder.get_contracts.return_value = ["Contrato A", "Contrato B"]
@@ -75,7 +75,7 @@ def test_worker_contract_provider_task(mock_previder):
     assert resultado == ["Contrato A", "Contrato B"]
     mock_previder.get_contracts.assert_called_once_with("descripcion de empresa")
 
-@patch('src.infrastructure.celery.celery_app.previder')
+@patch('src.infrastructure.celery.celery_app.prediction_provider')
 def test_worker_probability_provider_task(mock_previder):
     # 1. Configuras el mock
     mock_previder.get_win_prediction.return_value = 0.85
