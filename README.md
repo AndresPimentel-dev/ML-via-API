@@ -1,6 +1,6 @@
 # 🚀 ML-via-API
 
-> Production-ready REST API for Machine Learning model inference built with **FastAPI**, following **Clean Architecture**, featuring asynchronous processing, authentication, monitoring, centralized logging, automated testing, and CI/CD.
+> Production-oriented REST API for ML inference for Machine Learning model inference built with **FastAPI**, following **Clean Architecture**, featuring asynchronous processing, authentication, monitoring, centralized logging, automated testing, and CI/CD.
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi)
@@ -128,18 +128,17 @@ Each layer has a single responsibility, making the application easier to maintai
 
 ```
 .
-├── app/
+├── src/
 │   ├── domain/
-│   ├── application/
-│   ├── infrastructure/
 │   ├── api/
-│   └── core/
+│   ├── infrastructure/
+│   └── use_cases/
 │
 ├── tests/
 │
-├── migrations/
+├── alembic/
 │
-├── docker/
+├── Dockerfile
 │
 ├── prometheus/
 │
