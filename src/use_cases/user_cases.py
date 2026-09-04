@@ -4,13 +4,13 @@ from src.domain.interfaces import ILogger, UserRepositoryInterface, SecurityServ
 
 class UserUseCases:
     def __init__(self, user_repo: UserRepositoryInterface, 
-                 pws_sv: SecurityService, tk_sv: TokenService, 
-                 cc_us: CacheServiceUsername,
+                 password: SecurityService, token_service: TokenService, 
+                 cache_service: CacheServiceUsername,
                  logger: ILogger):
         self.user_repo = user_repo
-        self.pwd_sv = pws_sv
-        self.tk_sv = tk_sv
-        self.cc_us = cc_us
+        self.pwd_sv = password
+        self.tk_sv = token_service
+        self.cc_us = cache_service
         self.logger = logger
 
     def register_user(self, username:str, email:str, plain_password:str):
@@ -34,9 +34,7 @@ class UserUseCases:
         try:
             self.logger.info(message="iniciando secion", username=username)
             user = self.user_repo.get_by_username(username=username)
-            print(user)
             if not user:
-                print("usuario no encontrado")
                 return None
             verify = self.pwd_sv.verify_password(plain_password=plain_password, hashed_password=user.hashed_password)
             if not verify:

@@ -13,7 +13,7 @@ services:
        - "6379:6379"
    app:
      build: .
-     command: /bin/sh -c "alembic upgrade head && uvicorn src.infrastructure.api.main:app --host 0.0.0.0 --port 8000"
+     command: /bin/sh -c "alembic upgrade head && uvicorn src.api.main:app --host 0.0.0.0 --port 8000"
      volumes:
        - .:/app
      ports:

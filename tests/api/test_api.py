@@ -1,11 +1,11 @@
-def test_register_login(client):
+def test_register_user(client):
     response = client.post("/api/v1/auth/register", json={"username": "tesiuiouotuser", "email": "email@gmiuuiooail.com", "password": "pasuiowword"})
     
     assert response.status_code == 201
     token = response.json()["access_token"]
     assert token is not None
 
-def test_login_login(client):
+def test_login(client):
     client.post("/api/v1/auth/register", json={"username": "tesiuiouotuser", "email": "email@gmiuuiooail.com", "password": "pasuiowword"})
     response = client.post("/api/v1/auth/login", data={"username": "tesiuiouotuser", "password": "pasuiowword"})
     
@@ -13,17 +13,23 @@ def test_login_login(client):
     token = response.json()["access_token"]
     assert token is not None
 
-def test_obtener_contract(client):
+def test_invalid_credentials(client):
+
+    response = client.post("/api/v1/predictions/contracts", json={"company_description": "empresa de software"})
+
+    assert response.status_code == 401
+    assert response.json() == {'detail': 'Not authenticated'}
+
+def test_create_prediction(client):
     client.post("/api/v1/auth/register", json={"username": "tesiuiouotuser", "email": "email@gmiuuiooail.com", "password": "pasuiowword"})
     payload = client.post("/api/v1/auth/login", data={"username": "tesiuiouotuser", "password": "pasuiowword"})
     tokendecode = payload.json()["access_token"]
     headers = {"Authorization": f"Bearer {tokendecode}"}
     prediction_response = client.post("/api/v1/predictions/contracts", json={"company_description": "empresa de software"}, headers=headers)
-    print(payload.json)
     assert prediction_response.status_code == 201
     assert prediction_response.json() == {"status": "Predicción creada y guardada"}
 
-def test_obtener(client):
+def test_get_predictions(client):
     client.post("/api/v1/auth/register", json={"username": "tesiuiouotuser", "email": "email@gmiuuiooail.com", "password": "pasuiowword"})
     payload = client.post("/api/v1/auth/login", data={"username": "tesiuiouotuser", "password": "pasuiowword"})
     tokendecode = payload.json()["access_token"]
@@ -33,7 +39,7 @@ def test_obtener(client):
     assert prediction_response.status_code == 201
     assert prediction_response.json() == {"status": "Predicción creada y guardada"}
 
-def test_obtener_predicciones(client):
+def test_get_contracs(client):
     client.post("/api/v1/auth/register", json={"username": "tesiuiouotuser", "email": "email@gmiuuiooail.com", "password": "pasuiowword"})
     payload = client.post("/api/v1/auth/login", data={"username": "tesiuiouotuser", "password": "pasuiowword"})
     token = payload.json()["access_token"]
@@ -44,7 +50,7 @@ def test_obtener_predicciones(client):
     assert response.status_code == 200
     assert response.json() is not None
 
-def test_borrar_predicciones(client):
+def test_delete_own_prediction(client):
     client.post("/api/v1/auth/register", json={"username": "tesiuiouotuser", "email": "email@gmiuuiooail.com", "password": "pasuiowword"})
     payload = client.post("/api/v1/auth/login", data={"username": "tesiuiouotuser", "password": "pasuiowword"})
     tokendecode = payload.json()["access_token"]

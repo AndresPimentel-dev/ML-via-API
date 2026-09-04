@@ -6,7 +6,7 @@ import redis
 
 from src.use_cases.user_cases import UserUseCases
 from src.infrastructure.database.db_repository import UserRepository, PredictionsRepository
-from src.use_cases.prediction_cases import PredictionService
+from src.use_cases.prediction_use_cases import PredictionService
 from src.infrastructure.security.security_repository import SecurityServicesRepo, TokenService
 from src.infrastructure.database.connection import get_db
 from src.infrastructure.celery.celery_app import CeleryServices
@@ -82,7 +82,6 @@ def get_current_user(
     
     # 3. Si no está en caché, buscar en DB
     if not user_data:
-        print("Buscando en DB...")
         repo = InstrumentedUserRepo(UserRepository(db=db))
         user_db = repo.get_by_username(decode)
         

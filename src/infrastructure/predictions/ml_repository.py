@@ -39,7 +39,6 @@ class PredictionProvider(PredictionService):
         return dfNLP_ordenado.to_dict(orient="records")
     
     def get_win_prediction(self, contract_name: str, budget:float):
-        print({"contrato nombre en modelo": contract_name, "budget en moidelo": budget})
         contrato_match = dfFNC[dfFNC['nombre_del_procedimiento'].str.contains(contract_name, case=False, na=False)]
         if contrato_match.empty:
             return {"status": "error",
@@ -61,9 +60,7 @@ class PredictionProvider(PredictionService):
     
         datos_preprocesados = FNCpreprocessor.transform(datos_simulados)
         probabilidad = FNCmodel.predict_proba(datos_preprocesados)[0][1]
-        relacion_precio = budget / precio_base_real
-        if relacion_precio < 0.60:
-            probabilidad *= 0.3 # Reduce drásticamente la probabilidad original del modelo
+        relacion_precio = budget / precio_base_real# Reduce drásticamente la probabilidad original del modelo
         return {
         "data": {
             "probability": float(probabilidad),  # Convert numpy float to standard python float

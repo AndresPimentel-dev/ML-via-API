@@ -152,7 +152,6 @@ class InstrumentedModel(PredictionService):
             MODEL_ERRORS.labels(model='contratos model', error=type(e).__name__).inc()
             raise e          
     def get_win_prediction(self, contract_name, budget):
-        print({"contrato nombre en decorador": contract_name, "budget en decorador": budget})
         try:
             with MODEL_LATENCY.labels(model=' propability model').time():
                 return self._decorated.get_win_prediction(contract_name, budget)

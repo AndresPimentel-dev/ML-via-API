@@ -5,11 +5,11 @@ from sqlalchemy.orm import Session
 from fastapi import Response
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 from src.api.schemas import UserCreate, TokenResponse, StatusResponse, ProbabilityInput, ContractServiceInput, StatusResponse
 from src.use_cases.user_cases import UserUseCases
-from src.use_cases.prediction_cases import PredictionService
+from src.use_cases.prediction_use_cases import PredictionService
 from src.domain.entities import User
 from src.api.dependencies import get_current_user, get_prediction_case, get_use_case
 
@@ -65,8 +65,7 @@ def create_prediction(
     username = Depends(get_current_user), # <--- Aquí está la seguridad
     prediction_case: PredictionService = Depends(get_prediction_case)
 ):
-    print(username)
-    prediction_case.get_contract({"model_used": "contract_provider_model", "prediction": data.company_description, "user_id": username.user_id})
+    prediction_case.get_contract({"model_used and version": "contract_provider 1.3.0", "prediction": data.company_description, "user_id": username.user_id})
     
     return {"status": "Predicción creada y guardada"}
 
@@ -76,20 +75,18 @@ def get_probability(
     username = Depends(get_current_user),
     prediction_case: PredictionService = Depends(get_prediction_case)
 ):
-    prediction_case.get_probability_pred({"model_used": "probability_provider_model", "contract": data.contract_name,"budget": data.user_budget, "user_id": username.user_id})
+    prediction_case.get_probability_prediction({"model_used and version": "probability_provider 1.3.0", "contract": data.contract_name,"budget": data.user_budget, "user_id": username.user_id})
     return {"status": "Predicción creada y guardada"}
 
 @router.get("/api/v1/predictions", status_code=200)
-def obtenerprediccion(
+def get_prediction(
     username = Depends(get_current_user),
     user_case: PredictionService = Depends(get_prediction_case)):
     predictions = user_case.consult_prediction(username.user_id)
-    print(predictions)
-    print(type(predictions))
     return {"user_creator": username.username, "prediction": predictions}
 
 @router.delete("/api/v1/predictions/{prediction_id}", status_code=200, response_model=StatusResponse)
-def borrar_prediccion(
+def delete_prediction(
     prediction_id:int,
     username = Depends(get_current_user),
     use_case: PredictionService = Depends(get_prediction_case)
