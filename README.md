@@ -128,18 +128,17 @@ Each layer has a single responsibility, making the application easier to maintai
 
 ```
 .
-├── app/
+├── src/
 │   ├── domain/
-│   ├── application/
-│   ├── infrastructure/
 │   ├── api/
-│   └── core/
+│   ├── infrastructure/
+│   └── use_cases/
 │
 ├── tests/
 │
-├── migrations/
+├── alembic/
 │
-├── docker/
+├── Dockerfile
 │
 ├── prometheus/
 │
